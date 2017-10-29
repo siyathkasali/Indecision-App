@@ -1,0 +1,33 @@
+installing node and yarn
+
+*******************
+Adding react and reactDOM cdn in index.html
+
+********************
+Installing babel 
+npm install -g babel-cli@version
+check with babel --help (this means babel install correctly)
+
+*********************
+npm init(Package.json)
+
+**********************
+Installing Babel Presets (React and env)
+npm add babel-preset-react@6.24.1 babel-preset-env@1.5.1
+
+**********************
+Create src folder in root and create app.js file
+
+**********************
+Compile app.js with bable commands
+
+babel src/app.js --out-file=public/scripts/app.js --presets=env,react
+
+to watch continues changes type same command as above and add --watch
+
+babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch
+
+
+
+
+
