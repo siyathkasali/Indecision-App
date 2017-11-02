@@ -2,48 +2,56 @@ console.log('App.js is running');
 
 // JSX(javascript extension) - Javascript XML
 
+const formSubmit = (e) =>{
+    e.preventDefault();
+    const option = e.target.elements.option.value;
+    if(option){
+        app.options.push(option);
+        e.target.elements.option.value='';
+        countArray(); 
+    }
+}
+
+const remove = ()=>{
+    app.options.length = 0;
+    countArray();
+}
+
 const app = {
     title : "Indecision App",
     subtitle: 'React',
-    options : ['one','two']
+    options : []
 };
-const template =(
-    <div>
-    <h1>{app.title}</h1> 
-    {app.subtitle && <p>{app.subtitle}</p>}
-    {app.options.length>1 ? <p>Here are your options {app.options[1]} and {app.options[0]}</p> : 'no options'}
-    <ol>
-    <li>Jailani</li>
-    <li>Jainambu</li>
-    <li>Bhasidh</li>
-    <li>Siddika</li>
-    <li>Siyath</li>
-    </ol>
-    </div>
-);
 
-const user = {
-    name : 'siyath',
-    age: 25,
-    location: 'Bangalore'
+const makeDecsion =()=>{
+    const randomNumber = Math.round((Math.random() * app.options.length));
+    const option = app.options[randomNumber];
+    alert(option);
+    
 };
-const userName = 'siyath';
-const userAge = '24';
-const userLoaction = 'Tirunelveli';
-function getLocation(location){
-    if(location){
-        return <p>Location : {location}</p>;
-    }
-}
-const templateTwo = (
-    <div>
-    <h1>{user.name ? user.name : 'Anonmoyous'}</h1>
-    {(user.age && user.age>=18) && <p>Age: {user.age}</p>}
-    {getLocation(user.location)}
-    </div>
-);
 
+const appId = document.getElementById('app');
+const countArray = () =>{
+    const template =(
+        <div>
+        <h1>{app.title}</h1> 
+        {app.subtitle && <p>{app.subtitle}</p>}
+        {app.options.length>1 ? <p>Here are your options {app.options[1]} and {app.options[0]}</p> : 'no options'}
+        <button disabled={app.options.length===0} onClick={makeDecsion}>What should i do?</button>
+        <button onClick={remove}>Remove</button>
+        
+        <ol>{
+            app.options.map((word)=> <li key={word}>{word}</li>)
+        }
+        </ol>
+        <form onSubmit={formSubmit}>
+        <input type="text" placeholder="Enter Text" id="getText" name="option"/>
+        <button>Add Option</button>
+        </form>
+        </div>
+    );
+    
+    ReactDOM.render(template, appId);
+};
 
-const appid = document.getElementById('app');
-
-ReactDOM.render(template, appid);
+countArray();
