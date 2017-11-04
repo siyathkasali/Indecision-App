@@ -26,8 +26,7 @@ const app = {
 const makeDecsion =()=>{
     const randomNumber = Math.round((Math.random() * app.options.length));
     const option = app.options[randomNumber];
-    alert(option);
-    
+    alert(option);  
 };
 
 const appId = document.getElementById('app');
