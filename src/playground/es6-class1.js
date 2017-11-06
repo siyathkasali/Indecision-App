@@ -1,58 +1,52 @@
-class Person{
-    constructor(name= 'Anonymuis', age = '0'){
-        this.name = name;
-        this.age = age;
-    }
-    getMessage(){
-        return `Hi I am ${this.name}`;
-    }
-    getDescription(){
-        return `${this.name} is ${this.age} year's old`
-    }
+class Person {
+constructor(name="Anonymous",age = 0){
+    this.name=name;
+    this.age=age;
+}
+getMessage(){
+    return `Hi I'am ${this.name}`;
+}
+getDescription(){
+    return `Hi My name is ${this.name} and I'am ${this.age}`;
+}
 }
 
 class Student extends Person{
-constructor(name,age,major){
+ constructor(name, age, major){
     super(name,age);
-    this.major = major;
-}
-hasMajor(){
-   return !!this.major;
+     this.major = major;
+ }
+ hasMajor(){
+     return !!this.major;
+ }
+
+ getDescription(){
+   let description = super.getDescription();
+   if(this.hasMajor()){
+       description += ` and major is ${this.major}`;
+   }
+   return description;
+  }
 }
 
-getDescription(){
-    let description = super.getDescription();
-    if(this.hasMajor()){
-        description += ` and yup he has a degree`
-        return description;
+class Travaler extends Person{
+constructor(name, age, city){
+    super(name,age);
+    this.city = city;
+}
+getMessage(){
+    let message = super.getMessage();
+    if(this.city){
+        message += ` I am from ${this.city}`;
     }
+    return message;
 }
 }
 
-// Traveler
 
-class Traveler extends Person{
-    constructor(name,age,homeLocation){
-        super(name,age);
-        this.homeLocation=homeLocation;
-    }
+const me = new Travaler("Siyath Kasali", 24, "Tirunelveli");
+const other = new Student();
+console.log(me.getMessage());
+console.log(other.getMessage());
+console.log(me);
 
-    getMessage(){
-        let message = super.getMessage();
-        if(this.homeLocation){
-            return message += ` I'am from ${this.homeLocation}`;
-        }
-        return message;
-    }
-}
-
-const biker = new Traveler("Bhasidh", 28, "Tirunelveli");
-console.log(biker.getMessage());
-
-const carRacer = new Traveler("Siyath", 24);
-console.log(carRacer.getMessage());
-// const me = new Student('Siyath Kasali', 24, "Information Technology");
-// console.log(me.getMessage() + " "+ me.getDescription() +" "+ me.hasMajor());
-
-// const other = new Student('Bhasidh');
-// console.log(other.getMessage() +" "+ other.getDescription() +" "+ other.hasMajor());

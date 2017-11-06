@@ -1,56 +1,69 @@
-console.log('App.js is running');
-
-// JSX(javascript extension) - Javascript XML
-
-const formSubmit = (e) =>{
-    e.preventDefault();
-    const option = e.target.elements.option.value;
-    if(option){
-        app.options.push(option);
-        e.target.elements.option.value='';
-        countArray(); 
+class IndecisionApp extends React.Component{
+    render(){
+        const title = "Indecision App";
+        const subtitle = "Put your life in the hands of computer";
+        const options = ["Siyath","Bhasidh", "sid"];
+        return (
+            <div>
+                <Header title={title} subtitle={subtitle}/>
+                <Action />
+                <Options />
+                <AddOption />
+            </div>
+        );
     }
 }
 
-const remove = ()=>{
-    app.options.length = 0;
-    countArray();
+class Header extends React.Component{
+    render(){
+        return (
+            <div>
+            <h1>{this.props.title}</h1>
+            <h2>{this.props.subtitle}</h2>
+            </div>
+        );
+    }
 }
 
-const app = {
-    title : "Indecision App",
-    subtitle: 'React',
-    options : []
-};
+class Action extends React.Component{
+    render(){
+        return(
+            <div>
+                <button>What shall I Do?</button>
+            </div>
+        );
+    }
+}
 
-const makeDecsion =()=>{
-    const randomNumber = Math.round((Math.random() * app.options.length));
-    const option = app.options[randomNumber];
-    alert(option);  
-};
+class Options extends React.Component{
+    render(){
+        return (
+            <div>
+                <p>This is Option Component</p>
+                <Option />
+            </div>
+        );
+    }
+}
 
-const appId = document.getElementById('app');
-const countArray = () =>{
-    const template =(
-        <div>
-        <h1>{app.title}</h1> 
-        {app.subtitle && <p>{app.subtitle}</p>}
-        {app.options.length>1 ? <p>Here are your options {app.options[1]} and {app.options[0]}</p> : 'no options'}
-        <button disabled={app.options.length===0} onClick={makeDecsion}>What should i do?</button>
-        <button onClick={remove}>Remove</button>
-        
-        <ol>{
-            app.options.map((word)=> <li key={word}>{word}</li>)
-        }
-        </ol>
-        <form onSubmit={formSubmit}>
-        <input type="text" placeholder="Enter Text" id="getText" name="option"/>
-        <button>Add Option</button>
-        </form>
-        </div>
-    );
-    
-    ReactDOM.render(template, appId);
-};
+class Option extends React.Component{
+    render(){
+        return(
+            <div>
+            Option Component Here
+            </div>
+        );
+    }
+}
 
-countArray();
+class AddOption extends React.Component{
+    render(){
+        return(
+            <div>
+            <p>This is AddOption Component</p>
+            </div>
+        );
+    }
+}
+
+ReactDOM.render(<IndecisionApp />, document.getElementById('app'));
