@@ -7,6 +7,30 @@ class IndecisionApp extends React.Component{
         this.randomPick = this.randomPick.bind(this);
         this.handelRemoveAll=this.handelRemoveAll.bind(this);
         this.handelAddOne=this.handelAddOne.bind(this);
+        this.handelRemoveOption=this.handelRemoveOption.bind(this);
+    }
+
+    
+    componentDidMount() {
+        try{
+            const json = localStorage.getItem('options');
+            const options = JSON.parse(json);
+            if(options){
+                this.setState(()=>({
+                    options
+                }));
+            }     
+        }catch(e){
+
+        }
+    }
+    
+    componentDidUpdate(prevProps,prevState){
+        if(prevState.options.length !== this.state.options.length){
+            const json = JSON.stringify(this.state.options);
+            localStorage.setItem('options', json);
+            console.log("saving Data");
+        }
     }
 
     randomPick(){
@@ -14,6 +38,16 @@ class IndecisionApp extends React.Component{
         const value=this.state.options[random];
         alert(value);
     };
+
+    handelRemoveOption(optionToRemove){
+        this.setState((prevState)=>{
+            return{
+                options: prevState.options.filter((option)=>{
+                    return optionToRemove !== option;
+                })
+            }
+        })
+    }
 
     handelRemoveAll(){
         this.setState(()=>{
@@ -43,7 +77,7 @@ class IndecisionApp extends React.Component{
             <div>
             <Header title={title} subtitle={subtitle}/>
             <Action hasOptions={this.state.options.length>1} randomPick={this.randomPick}/>
-            <Options options={this.state.options} handelRemoveAll={this.handelRemoveAll}/>
+            <Options options={this.state.options} handelRemoveAll={this.handelRemoveAll} handelRemoveOption={this.handelRemoveOption}/>
             <AddOption addOption={this.handelAddOne}/>
             </div>
         );
@@ -59,35 +93,33 @@ const Header = (props)=>{
     )
 }
 
-class Action extends React.Component{
-    render(){
-        return(
-            <button disabled={!this.props.hasOptions} onClick={this.props.randomPick}>What should I do?</button>
-        );
-    }
+const Action = (props)=>{
+    return(
+    <button disabled={!props.hasOptions} onClick={props.randomPick}>What should I do?</button>
+    );
 }
 
-class Options extends React.Component{
-    render(){
-        return(
-            <div>
-            <button onClick={this.props.handelRemoveAll}>Remove All</button>
-            {
-                this.props.options.map((option)=> <Option key={option} optionText={option} />)
-            }
-            </div>
-        );
-    }
+const Options = (props)=>{
+    return(
+        <div>
+        {props.options.length===0 && <p>Enter some options to store</p>}
+        <button onClick={props.handelRemoveAll}>Remove All</button>
+        {
+            props.options.map((option)=> <Option key={option} optionText={option} handelRemoveOption={props.handelRemoveOption}/>)
+        }
+        </div>
+    );
 }
 
-class Option extends React.Component{
-    render(){
-        return(
-            <div>
-            {this.props.optionText}
-            </div>
-        );
-    }
+const Option = (props)=>{
+    return(
+        <div>
+        {props.optionText}
+        <button onClick={(e)=>{
+            props.handelRemoveOption(props.optionText);
+        }}>Remove</button>
+        </div>
+    );
 }
 
 class AddOption extends React.Component{
@@ -102,12 +134,14 @@ class AddOption extends React.Component{
         e.preventDefault();
         const inputVal = e.target.elements.options.value.trim();
          const error = this.props.addOption(inputVal);
-            
-       this.setState(()=>{
+         this.setState(()=>{
            return{
             error:error
            }
        }); 
+       if(!error){
+        e.target.elements.options.value='';
+       }
     }
     render(){
         return(
