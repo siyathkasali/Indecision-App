@@ -2,7 +2,10 @@ import React from 'react';
 
 const Action = (props)=>{
     return(
-    <button disabled={!props.hasOptions} onClick={props.randomPick}>What should I do?</button>
+    <button 
+    className="big-button"
+    disabled={!props.hasOptions} 
+    onClick={props.randomPick}>What should I do?</button>
     );
 };
 

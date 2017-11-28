@@ -5,7 +5,7 @@ import Options from './Options';
 import AddOption from './AddOption';
 
 
-class IndecisionApp extends React.Component{
+export default class IndecisionApp extends React.Component{
     constructor(props){
         super(props);
         this.state={
@@ -83,12 +83,16 @@ class IndecisionApp extends React.Component{
         return(
             <div>
             <Header title={title} subtitle={subtitle}/>
-            <Action hasOptions={this.state.options.length>1} randomPick={this.randomPick}/>
-            <Options options={this.state.options} handelRemoveAll={this.handelRemoveAll} handelRemoveOption={this.handelRemoveOption}/>
+            <div className="container">
+            <Action hasOptions={this.state.options.length>=1} randomPick={this.randomPick}/>
+            <div className="widget">
+            <Options options={this.state.options} 
+            handelRemoveAll={this.handelRemoveAll} 
+            handelRemoveOption={this.handelRemoveOption}/>
             <AddOption addOption={this.handelAddOne}/>
+            </div>
+            </div>
             </div>
         );
     }
 }
-
-export default IndecisionApp;

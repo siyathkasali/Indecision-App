@@ -1,6 +1,6 @@
 import React from 'react';
 
-class AddOption extends React.Component{
+export default class AddOption extends React.Component{
     constructor(props){
         super(props);
         this.fomrSubmit=this.fomrSubmit.bind(this);
@@ -24,10 +24,10 @@ class AddOption extends React.Component{
     render(){
         return(
             <div>
-            {this.state.error && <p>{this.state.error}</p>}
-               <form onSubmit={this.fomrSubmit}>
-               <input type="text" name="options"/>
-               <input type="submit" value="submit"/>
+            {this.state.error && <p className="add-option-error">{this.state.error}</p>}
+               <form onSubmit={this.fomrSubmit} className="add-option">
+               <input type="text" name="options" className="add-option__input"/>
+               <input type="submit" value="Add Option" className="button"/>
                </form> 
             </div>
         );
